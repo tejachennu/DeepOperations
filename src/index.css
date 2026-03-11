@@ -1759,22 +1759,113 @@ ol {
 }
 
 /* ===== LIGHT MODE FORM INPUTS ===== */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.form-grid .form-group label {
+    color: #0f172a !important;
+    font-weight: 600 !important;
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+}
+
 .form-grid .form-input {
     background: #ffffff !important;
     color: #0f172a !important;
     border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 0.875rem 1rem !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+    font-family: inherit !important;
+}
+
+@media (max-width: 640px) {
+    .form-grid .form-input {
+        padding: 0.75rem 0.875rem !important;
+        font-size: 16px !important;
+    }
+}
+
+.form-grid select.form-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230f172a' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 1rem center !important;
+    padding-right: 2.5rem !important;
+    appearance: none !important;
 }
 
 .form-grid .form-input::placeholder {
-    color: #94a3b8 !important;
+    color: #0f172a !important;
+    opacity: 0.7 !important;
 }
 
 .form-grid .form-input:focus {
     border-color: #6366f1 !important;
-    background: #ffffff !important;
+    background-color: #ffffff !important;
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+    outline: none !important;
 }
 
 .form-grid .form-input:hover {
     border-color: #cbd5e1 !important;
+    background-color: #f8fafc !important;
+}
+
+.form-grid .form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
