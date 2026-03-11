@@ -163,7 +163,6 @@ export default function PublicRegistrationPage() {
                         style={{ 
                             width: 'clamp(40px, 8vw, 56px)', 
                             height: 'clamp(40px, 8vw, 56px)',
-                            animation: 'bounce 1.5s ease-in-out infinite'
                         }} 
                     />
                     <CheckCircle 
@@ -225,7 +224,6 @@ export default function PublicRegistrationPage() {
                 }}>
                     <div style={{ 
                         marginBottom: '1.5rem',
-                        animation: 'bounce 2s infinite'
                     }}>
                         <img 
                             src="/images/icon.png" 

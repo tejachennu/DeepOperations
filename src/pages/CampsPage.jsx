@@ -32,7 +32,25 @@ export default function CampsPage() {
             setCamps(res.data.data.camps || []);
         } catch (err) {
             console.error('Fetch camps error:', err);
-            setError('Failed to load camps. Please try again.');
+            
+            // Detailed error message for network issues
+            let errorMessage = 'Failed to load camps. Please try again.';
+            
+            if (!err.response) {
+                if (err.code === 'ECONNABORTED') {
+                    errorMessage = '⏱️ Request timeout. API server is not responding. Please check your connection.';
+                } else if (err.message.includes('Network Error')) {
+                    errorMessage = '📡 Network Error: Cannot connect to API server. Please ensure the API is running and check CORS settings.';
+                } else {
+                    errorMessage = '📡 Network Error: ' + (err.message || 'Unable to connect to server.');
+                }
+            } else if (err.response?.status === 404) {
+                errorMessage = '❌ API endpoint not found. Check API configuration.';
+            } else if (err.response?.status === 500) {
+                errorMessage = '❌ Server error. Please contact support.';
+            }
+            
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -127,8 +145,8 @@ export default function CampsPage() {
 
             {/* Filter Bar */}
             <div className="filter-bar">
-                <div className="search-input-wrapper" style={{ flex: 1, maxWidth: 360 }}>
-                    <Search />
+                <div className="search-input-wrapper" style={{ flex: 1, minWidth: 0 }}>
+                    <Search size={18} />
                     <input
                         className="search-input"
                         style={{ width: '100%' }}
@@ -144,6 +162,7 @@ export default function CampsPage() {
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                     id="filter-status"
+                    style={{ minWidth: '120px' }}
                 >
                     <option value="">All Statuses</option>
                     <option value="Ongoing">Ongoing</option>
@@ -151,17 +170,25 @@ export default function CampsPage() {
                     <option value="Completed">Completed</option>
                     <option value="Cancelled">Cancelled</option>
                 </select>
-                <button className="btn btn-indigo" onClick={handleSearch} id="search-btn">
-                    <Search size={15} />
-                    Search
+                <button className="btn btn-indigo search-btn" onClick={handleSearch} id="search-btn">
+                    <Search size={18} />
+                    <span className="search-text">Search</span>
                 </button>
             </div>
 
             {/* Error */}
             {error && (
-                <div className="login-error animate-fade-in" style={{ marginBottom: '1.5rem', background: 'var(--error-50)', border: '1px solid var(--error-100)', color: 'var(--error-600)' }}>
-                    <AlertCircle size={16} />
-                    <span>{error}</span>
+                <div className="network-error-box animate-fade-in">
+                    <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
+                        <AlertCircle size={20} style={{ flexShrink: 0, marginTop: '2px' }} />
+                        <div style={{ flex: 1 }}>
+                            <strong style={{ fontSize: '0.95rem' }}>Connection Error</strong>
+                            <p style={{ margin: 'var(--space-2) 0 0 0', fontSize: '0.9rem', lineHeight: '1.5' }}>{error}</p>
+                            <small style={{ display: 'block', marginTop: 'var(--space-2)', opacity: 0.8 }}>
+                                💡 Tip: Ensure the API server at https://deepapiservice.azurewebsites.net is running and check your network connection.
+                            </small>
+                        </div>
+                    </div>
                 </div>
             )}
 
