@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { campsAPI, campRegistrationAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -9,8 +9,7 @@ import {
 } from 'lucide-react';
 
 export default function CampDetailPage() {
-    const [searchParams] = useSearchParams();
-    const campId = searchParams.get('campid');
+    const { campId } = useParams();
     const navigate = useNavigate();
     const { user } = useAuth();
 

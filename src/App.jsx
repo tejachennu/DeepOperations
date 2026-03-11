@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import AppLayout from './components/AppLayout';
 import LoginPage from './pages/LoginPage';
 import CampsPage from './pages/CampsPage';
+import CampDetailPage from './pages/CampDetailPage';
 import PublicRegistrationPage from './pages/PublicRegistrationPage';
 
 function ProtectedRoute({ children }) {
@@ -60,6 +61,7 @@ function AppRoutes() {
                 }
             >
                 <Route path="/camps" element={<CampsPage />} />
+                <Route path="/camps/:campId" element={<CampDetailPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/camps" replace />} />
         </Routes>
