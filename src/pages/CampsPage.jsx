@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import CampDetailPage from './CampDetailPage';
 import { campsAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -9,6 +10,8 @@ import {
 } from 'lucide-react';
 
 export default function CampsPage() {
+    const [searchParams] = useSearchParams();
+    const campid = searchParams.get('campid');
     const [camps, setCamps] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -16,6 +19,10 @@ export default function CampsPage() {
     const [statusFilter, setStatusFilter] = useState('');
     const navigate = useNavigate();
     const { user } = useAuth();
+
+    if (campid) {
+        return <CampDetailPage />;
+    }
 
     useEffect(() => {
         fetchCamps();
@@ -183,7 +190,7 @@ export default function CampsPage() {
                             key={camp.CampId}
                             className="camp-card animate-fade-in"
                             style={{ animationDelay: `${index * 0.05}s` }}
-                            onClick={() => navigate(`/camps/${camp.CampId}`)}
+                            onClick={() => navigate(`/camps?campid=${camp.CampId}`)}
                             id={`camp-card-${camp.CampId}`}
                         >
                             <div className="camp-card-banner">
@@ -239,7 +246,7 @@ export default function CampsPage() {
                                     )}
                                     <button
                                         className="btn btn-sm btn-indigo"
-                                        onClick={(e) => { e.stopPropagation(); navigate(`/camps/${camp.CampId}`); }}
+                                        onClick={(e) => { e.stopPropagation(); navigate(`/camps?campid=${camp.CampId}`); }}
                                     >
                                         Manage <ChevronRight size={14} />
                                     </button>
